@@ -995,7 +995,7 @@ schema = """[
         "slot_type": "Primary"
       },
       {
-        "id": 56,
+        "id": 1092,
         "logname": "tf_projectile_arrow",
         "reskin": 56,
         "name": "The Fortified Compound",

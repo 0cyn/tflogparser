@@ -1,3 +1,4 @@
+from json import load
 import xlwt
 
 import re
@@ -107,8 +108,13 @@ class Parser:
         self.schema = ItemSchema()
 
         self.user_map = {}
+        self.loadout_tracker = {}
+
+
 
         self.log = LogLoader().content
+
+
 
         self.only_item_kills = {}
         for itemindex in schema.items:
@@ -136,6 +142,21 @@ class Parser:
             self.user_map[name] = User(self, name)
         return self.user_map[name]
 
+    def log_loadout(self, tfclass, primary, secondary, melee):
+        tfclass = tfclass.lower()
+        if tfclass == 'demoman':
+            tfclass = 'demo'
+        if tfclass not in ['scout', 'soldier', 'pyro', 'demo', 'heavy', 'engineer', 'medic', 'sniper', 'spy']:
+            return 
+        if primary not in schema.items or secondary not in schema.items or melee not in schema.items:
+            return
+        loadout_str = f'{tfclass}-{primary}-{secondary}-{melee}'
+        if loadout_str in self.loadout_tracker:
+            self.loadout_tracker[loadout_str] += 1
+        else:
+            self.loadout_tracker[loadout_str] = 1
+
+
     def log_kill(self, killer, killed, weapon_logname):
 
         if weapon_logname in schema.lognames:
@@ -159,6 +180,9 @@ class Parser:
                 if match_loadout_command and len(match_loadout_command.groups()) == 5:
                     user = self.get_user_by_name(match_loadout_command.group(1))
                     user.change_loadout(match_loadout_command.group(2),
+                                        int(match_loadout_command.group(3)), int(match_loadout_command.group(4)),
+                                        int(match_loadout_command.group(5)))
+                    self.log_loadout(match_loadout_command.group(2),
                                         int(match_loadout_command.group(3)), int(match_loadout_command.group(4)),
                                         int(match_loadout_command.group(5)))
                     continue
@@ -210,11 +234,34 @@ class Parser:
                              sorted(self.relative_kds_melee.items(), reverse=True, key=lambda item: item[1])}
         self.relative_kds_melee = {k:v for k, v in self.relative_kds_melee.items() if not self.schema.items[k].is_reskin}
 
+        self.loadout_tracker = {k: v for k, v in
+                             sorted(self.loadout_tracker.items(), reverse=True, key=lambda item: item[1])}
+
 
 class XMLOutputter:
     def __init__(self, parser):
         self.parser = parser
         self.do_weapon_stats()
+        self.do_loadouts()
+
+    def do_loadouts(self):
+        book = xlwt.Workbook()
+        sh = book.add_sheet("Loadouts")
+
+        col1_name = 'Loadout'
+        col2_name = 'Times chosen'
+
+        sh.write(0, 0, col1_name)
+        sh.write(0, 1, col2_name)
+
+        for i, loadout_string in enumerate(self.parser.loadout_tracker):
+            tfclass, prim_index, sec_index, melee_index = loadout_string.split('-')
+            render_string = f'{tfclass} - {schema.items[int(prim_index)].name}, {schema.items[int(sec_index)].name}, {schema.items[int(melee_index)].name}'
+            sh.write(i + 1, 0, render_string)
+            sh.write(i + 1, 1, self.parser.loadout_tracker[loadout_string])
+            
+        book.save("loadouts.xls")
+        print('Saved spreadsheet with loadouts as loadouts.xls')
 
     def do_weapon_stats(self):
 
