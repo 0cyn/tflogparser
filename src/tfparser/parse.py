@@ -130,7 +130,7 @@ if __name__=="__main__":
     item_kills = {}
     only_item_kills = {}
     for i in schema.items:
-        only_item_kills[i.id] = 0
+        only_item_kills[i] = 0
 
 
     def log_kill(killer, killed, weapon_logname):
