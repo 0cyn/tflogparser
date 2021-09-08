@@ -134,7 +134,7 @@ if __name__=="__main__":
 
 
     def log_kill(killer, killed, weapon_logname):
-        only_item_kills[schema.lognames[weapon_logname]] += 1
+        only_item_kills[schema.lognames[weapon_logname].index] += 1
         get_user_by_name(killer).kill(killed, weapon_logname)
 
 
