@@ -1185,6 +1185,7 @@ schema = """
   ]
 ]"""
 
+
 class Item:
     def __init__(self, weapon_dict):
         self.index = weapon_dict["id"]
@@ -1202,9 +1203,13 @@ class ItemSchema:
     def __init__(self):
 
         self.items = {}
+        self.lognames = {}
 
         item_json = json.loads(schema)
 
         for class_index in range(0, 8):
             for weapon_dict in item_json[class_index][1]:
-                self.items[weapon_dict["id"]] = Item(weapon_dict)
+                item = Item(weapon_dict)
+                self.items[weapon_dict["id"]] = item
+                if "logname" in weapon_dict:
+                    self.lognames[weapon_dict["logname"]] = item

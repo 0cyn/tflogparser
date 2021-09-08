@@ -207,10 +207,12 @@ sh = book.add_sheet("Stats")
 col1_name = 'Weapon Name'
 col2_name = 'Difference from average KD'
 col3_name = 'Kills'
+col4_name = 'Kills with weapon equipped'
 
-sh.write(0, 1, col1_name)
-sh.write(0, 2, col2_name)
-sh.write(0, 3, col3_name)
+sh.write(0, 0, col1_name)
+sh.write(0, 1, col2_name)
+sh.write(0, 2, col3_name)
+sh.write(0, 3, col4_name)
 
 for i, item_index in enumerate(srelative_kds_primary):
     sh.write(i+1, 0, schema.items[item_index].name)
