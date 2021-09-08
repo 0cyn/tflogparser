@@ -18,6 +18,7 @@ if __name__=="__main__":
     from tfparser.loader import LogLoader
 
     print('Loading Schema')
+    print('Loading Schema')
     schema = ItemSchema()
 
     regex_loadout_command = r'.*? - .*?: "([^<]*).*?" say "!loadout\s(\S*?)\s([0-9]*?)\s([0-9]*?)\s([0-9]*?)"'
@@ -134,25 +135,29 @@ if __name__=="__main__":
 
 
     def log_kill(killer, killed, weapon_logname):
-        only_item_kills[schema.lognames[weapon_logname].index] += 1
+        if weapon_logname in schema.lognames:
+            only_item_kills[schema.lognames[weapon_logname].index] += 1
         get_user_by_name(killer).kill(killed, weapon_logname)
 
 
     log = LogLoader().content
 
     for line in log.split('\n'):
-        if 'killed' not in line and '!loadout' not in line:
-            continue
-        match_loadout_command = re.search(regex_loadout_command, line)
-        if match_loadout_command and len(match_loadout_command.groups()) == 5:
-            user = get_user_by_name(match_loadout_command.group(1))
-            user.change_loadout(match_loadout_command.group(2),
-                                int(match_loadout_command.group(3)), int(match_loadout_command.group(4)),
-                                int(match_loadout_command.group(5)))
-            continue
-        match_kill_action = re.search(regex_kill_action, line)
-        if match_kill_action and len(match_kill_action.groups()) == 3:
-            log_kill(match_kill_action.group(1), match_kill_action.group(2), match_kill_action.group(3))
+        try:
+            if 'killed' not in line and '!loadout' not in line:
+                continue
+            match_loadout_command = re.search(regex_loadout_command, line)
+            if match_loadout_command and len(match_loadout_command.groups()) == 5:
+                user = get_user_by_name(match_loadout_command.group(1))
+                user.change_loadout(match_loadout_command.group(2),
+                                    int(match_loadout_command.group(3)), int(match_loadout_command.group(4)),
+                                    int(match_loadout_command.group(5)))
+                continue
+            match_kill_action = re.search(regex_kill_action, line)
+            if match_kill_action and len(match_kill_action.groups()) == 3:
+                log_kill(match_kill_action.group(1), match_kill_action.group(2), match_kill_action.group(3))
+        except:
+            pass
 
     # We start all at ONE to avoid divide-by zero
     # Is this actually bad?

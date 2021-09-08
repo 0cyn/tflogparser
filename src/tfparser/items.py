@@ -1207,7 +1207,7 @@ class ItemSchema:
 
         item_json = json.loads(schema)
 
-        for class_index in range(0, 8):
+        for class_index in range(0, 9):
             for weapon_dict in item_json[class_index][1]:
                 item = Item(weapon_dict)
                 self.items[weapon_dict["id"]] = item

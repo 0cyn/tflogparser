@@ -3,13 +3,14 @@ import os
 
 class LogLoader:
     def __init__(self):
-        self.uses_folder = not (input('Is the input a folder name? (Y/n)').upper() == 'N')
+        self.uses_folder = not (input('Is the input a folder name? (Y/n) ').upper() == 'N')
         self.content = ""
         if self.uses_folder:
             self.folder_name = input('Name of directory > ')
             for filename in os.listdir(self.folder_name):
                 if filename.endswith(".log"):
-                    with open(filename, 'r') as f:
+                    with open(self.folder_name + '/' + filename, 'r', errors='ignore') as f:
+                        print(f'Loading {filename}')
                         self.content += f.read()
                 else:
                     continue
