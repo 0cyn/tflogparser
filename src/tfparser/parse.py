@@ -135,8 +135,14 @@ if __name__=="__main__":
 
 
     def log_kill(killer, killed, weapon_logname):
+
         if weapon_logname in schema.lognames:
-            only_item_kills[schema.lognames[weapon_logname].index] += 1
+            weapon_index = schema.lognames[weapon_logname]
+            if weapon_logname in ['tf_projectile_rocket', 'tf_projectile_arrow']:
+                weapon_index = get_user_by_name(killer).primary.index
+            if weapon_logname in ['tf_projectile_pipe_remote']:
+                weapon_index = get_user_by_name(killer).secondary.index
+            only_item_kills[weapon_index] += 1
         get_user_by_name(killer).kill(killed, weapon_logname)
 
 

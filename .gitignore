@@ -3,3 +3,9 @@ server.log
 slots.json
 primary.xls
 stats.xls
+.idea/
+logs.zip
+stats.xls 
+weapon_stats.xls
+__pycache__/
+logs/

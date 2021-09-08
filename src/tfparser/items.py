@@ -1,7 +1,6 @@
 import json
 
-schema = """
-[
+schema = """[
   [
     "Scout",
     [
@@ -65,6 +64,7 @@ schema = """
       {
         "id": 294,
         "logname": "pep_pistol",
+        "reskin": 23,
         "name": "Lugermorph",
         "slot_type": "Secondary"
       },
@@ -101,12 +101,14 @@ schema = """
       {
         "id": 221,
         "logname": "bat",
+        "reskin": 0,
         "name": "The Holy Mackerel",
         "slot_type": "Melee"
       },
       {
         "id": 264,
         "logname": "fryingpan",
+        "reskin": 0,
         "name": "Frying Pan",
         "slot_type": "Melee"
       },
@@ -143,12 +145,14 @@ schema = """
       {
         "id": 352,
         "logname": "scout_sword",
+        "reskin": 325,
         "name": "Three-Rune Blade",
         "slot_type": "Melee"
       },
       {
         "id": 572,
         "logname": "unarmed_combat",
+        "reskin": 0,
         "name": "Unarmed Combat",
         "slot_type": "Melee"
       },
@@ -201,6 +205,7 @@ schema = """
       {
         "id": 513,
         "logname": "quake_rl",
+        "reskin": 18,
         "name": "The Original",
         "slot_type": "Primary"
       },
@@ -337,6 +342,7 @@ schema = """
       {
         "id": 741,
         "logname": "flamethrower",
+        "reskin": 21,
         "name": "The Rainblower",
         "slot_type": "Primary"
       },
@@ -349,12 +355,14 @@ schema = """
       {
         "id": 30474,
         "logname": "flamethrower",
+        "reskin": 21,
         "name": "Nostromo Napalmer",
         "slot_type": "Primary"
       },
       {
         "id": 12,
         "logname": "shotgun_pyro",
+        "reskin": 10,
         "name": "Pyro's Shotgun",
         "slot_type": "Secondary"
       },
@@ -438,12 +446,14 @@ schema = """
       {
         "id": 457,
         "logname": "mailbox",
+        "reskin": 38,
         "name": "The Postal Pummeler",
         "slot_type": "Melee"
       },
       {
         "id": 466,
         "logname": "the_maul",
+        "reskin": 153,
         "name": "The Maul",
         "slot_type": "Melee"
       },
@@ -456,6 +466,7 @@ schema = """
       {
         "id": 739,
         "logname": "lollichop",
+        "reskin": 2,
         "name": "The Lollichop",
         "slot_type": "Melee"
       },
@@ -495,6 +506,7 @@ schema = """
       },
       {
         "id": 608,
+        "reskin": 405,
         "name": "The Bootlegger",
         "slot_type": "Primary"
       },
@@ -582,6 +594,7 @@ schema = """
       {
         "id": 266,
         "logname": "headtaker",
+        "reskin": 132,
         "name": "Horseless Headless Horseman's Headtaker",
         "slot_type": "Melee"
       },
@@ -618,6 +631,7 @@ schema = """
       {
         "id": 609,
         "logname": "scotland_shard",
+        "reskin": 1,
         "name": "The Scottish Handshake",
         "slot_type": "Melee"
       },
@@ -646,6 +660,7 @@ schema = """
       {
         "id": 298,
         "logname": "iron_curtain",
+        "reskin": 15,
         "name": "Iron Curtain",
         "slot_type": "Primary"
       },
@@ -670,6 +685,7 @@ schema = """
       {
         "id": 11,
         "logname": "shotgun_hwg",
+        "reskin": 10,
         "name": "Heavy's Shotgun",
         "slot_type": "Secondary"
       },
@@ -698,6 +714,7 @@ schema = """
       {
         "id": 433,
         "name": "Fishcake",
+        "reskin": 159,
         "slot_type": "Secondary"
       },
       {
@@ -744,12 +761,14 @@ schema = """
       {
         "id": 587,
         "logname": "apocofists",
+        "reskin": 5,
         "name": "Apoco-Fists",
         "slot_type": "Melee"
       },
       {
         "id": 1100,
         "logname": "bread_bite",
+        "reskin": 239,
         "name": "The Bread Bite",
         "slot_type": "Melee"
       }
@@ -761,6 +780,7 @@ schema = """
       {
         "id": 9,
         "logname": "shotgun_primary",
+        "reskin": 10,
         "name": "Engineer's Shotgun",
         "slot_type": "Primary"
       },
@@ -825,6 +845,7 @@ schema = """
       {
         "id": 169,
         "logname": "wrench_golden",
+        "reskin": 7,
         "name": "Golden Wrench",
         "slot_type": "Melee"
       },
@@ -969,12 +990,14 @@ schema = """
       {
         "id": 851,
         "logname": "awper_hand",
+        "reskin": 14,
         "name": "The AWPer Hand",
         "slot_type": "Primary"
       },
       {
-        "id": 1092,
+        "id": 56,
         "logname": "tf_projectile_arrow",
+        "reskin": 56,
         "name": "The Fortified Compound",
         "slot_type": "Primary"
       },
@@ -993,33 +1016,34 @@ schema = """
       {
         "id": 57,
         "name": "The Razorback",
-        "slot_type": "Primary"
+        "slot_type": "Secondary"
       },
       {
         "id": 58,
         "name": "Jarate",
-        "slot_type": "Primary"
+        "slot_type": "Secondary"
       },
       {
         "id": 231,
         "name": "Darwin's Danger Shield",
-        "slot_type": "Primary"
+        "slot_type": "Secondary"
       },
       {
         "id": 642,
         "name": "Cozy Camper",
-        "slot_type": "Primary"
+        "slot_type": "Secondary"
       },
       {
         "id": 751,
         "logname": "pro_smg",
         "name": "The Cleaner's Carbine",
-        "slot_type": "Primary"
+        "slot_type": "Secondary"
       },
       {
         "id": 1105,
         "name": "The Self-Aware Beauty Mark",
-        "slot_type": "Primary"
+        "reskin": 58,
+        "slot_type": "Secondary"
       },
       {
         "id": 3,
@@ -1065,6 +1089,7 @@ schema = """
       {
         "id": 161,
         "logname": "revolver",
+        "reskin": 24,
         "name": "Big Kill",
         "slot_type": "Secondary"
       },
@@ -1100,6 +1125,7 @@ schema = """
       },
       {
         "id": 1102,
+        "reskin": 735,
         "name": "The Snack Attack",
         "slot_type": "Building"
       },
@@ -1136,18 +1162,21 @@ schema = """
       {
         "id": 574,
         "logname": "eternal_reward",
+        "reskin": 225,
         "name": "The Wanga Prick",
         "slot_type": "Melee"
       },
       {
         "id": 638,
         "logname": "knife",
+        "reskin": 4,
         "name": "The Sharp Dresser",
         "slot_type": "Melee"
       },
       {
         "id": 727,
         "logname": "black_rose",
+        "reskin": 4,
         "name": "The Black Rose",
         "slot_type": "Melee"
       },
@@ -1174,16 +1203,38 @@ schema = """
       {
         "id": 298,
         "name": "Enthusiast's Timepiece",
+        "reskin": 30,
         "slot_type": "Melee"
       },
       {
         "id": 947,
         "name": "The Quackenbirdt",
+        "reskin": 30,
         "slot_type": "Melee"
       }
     ]
   ]
 ]"""
+
+
+reskin_map = {
+    727: 638,
+    294: 22,
+    352: 325,
+    405: 608,
+    457: 38,
+    466: 153,
+    266: 132,
+    482: 132,
+    433: 159,
+    587: 5,
+    1100: 239,
+    169: 7,
+    851: 14,
+    1092: 56,
+    161: 24,
+    30474: 21,
+}
 
 
 class Item:
@@ -1193,10 +1244,15 @@ class Item:
         self.slot_type = weapon_dict["slot_type"]
 
         self.has_log_name = False
+        self.is_reskin = False
 
         if "logname" in weapon_dict:
             self.logname = weapon_dict["logname"]
             self.has_log_name = True
+
+        if "reskin" in weapon_dict:
+            self.reskin = weapon_dict["reskin"]
+            self.is_reskin = True
 
 
 class ItemSchema:
@@ -1212,4 +1268,4 @@ class ItemSchema:
                 item = Item(weapon_dict)
                 self.items[weapon_dict["id"]] = item
                 if "logname" in weapon_dict:
-                    self.lognames[weapon_dict["logname"]] = item
+                    self.lognames[weapon_dict["logname"]] = item.index
