@@ -26,6 +26,8 @@ class User:
         self.secondary = schema.items[0]
         self.melee = schema.items[0]
 
+        self.used_loadouts = []
+
         self.kills = []
         self.deaths = []
 
@@ -110,6 +112,11 @@ class Parser:
         self.user_map = {}
         self.loadout_tracker = {}
 
+        self.class_equips = {}
+        self.weapon_equips = {}
+        self.primary_equips = {} 
+        self.secondary_equips = {}
+        self.melee_equips = {}
 
 
         self.log = LogLoader().content
@@ -131,6 +138,7 @@ class Parser:
         self.relative_kds_primary = {}
         self.relative_kds_for_items = {}
 
+
         Parser.print(f'Processing Data')
         self.process_data()
 
@@ -142,7 +150,9 @@ class Parser:
             self.user_map[name] = User(self, name)
         return self.user_map[name]
 
-    def log_loadout(self, tfclass, primary, secondary, melee):
+    
+
+    def log_loadout(self, user, tfclass, primary, secondary, melee):
         tfclass = tfclass.lower()
         if tfclass == 'demoman':
             tfclass = 'demo'
@@ -151,10 +161,34 @@ class Parser:
         if primary not in schema.items or secondary not in schema.items or melee not in schema.items:
             return
         loadout_str = f'{tfclass}-{primary}-{secondary}-{melee}'
+        if loadout_str in user.used_loadouts:
+            return
+
+        if tfclass in self.class_equips:
+            self.class_equips[tfclass] += 1 
+        else:
+            self.class_equips[tfclass] = 1
+
+        if primary in self.primary_equips:
+            self.primary_equips[primary] += 1
+        else:
+            self.primary_equips[primary] = 1
+
+        if secondary in self.secondary_equips:
+            self.secondary_equips[secondary] += 1
+        else:
+            self.secondary_equips[secondary] = 1
+
+        if melee in self.melee_equips:
+            self.melee_equips[melee] += 1
+        else:
+            self.melee_equips[melee] = 1
+        
         if loadout_str in self.loadout_tracker:
             self.loadout_tracker[loadout_str] += 1
         else:
             self.loadout_tracker[loadout_str] = 1
+        user.used_loadouts.append(loadout_str)
 
 
     def log_kill(self, killer, killed, weapon_logname):
@@ -182,7 +216,7 @@ class Parser:
                     user.change_loadout(match_loadout_command.group(2),
                                         int(match_loadout_command.group(3)), int(match_loadout_command.group(4)),
                                         int(match_loadout_command.group(5)))
-                    self.log_loadout(match_loadout_command.group(2),
+                    self.log_loadout(user, match_loadout_command.group(2),
                                         int(match_loadout_command.group(3)), int(match_loadout_command.group(4)),
                                         int(match_loadout_command.group(5)))
                     continue
@@ -234,6 +268,14 @@ class Parser:
                              sorted(self.relative_kds_melee.items(), reverse=True, key=lambda item: item[1])}
         self.relative_kds_melee = {k:v for k, v in self.relative_kds_melee.items() if not self.schema.items[k].is_reskin}
 
+        self.class_equips = {k: v for k, v in
+                             sorted(self.class_equips.items(), reverse=True, key=lambda item: item[1])}
+        self.primary_equips = {k: v for k, v in
+                             sorted(self.primary_equips.items(), reverse=True, key=lambda item: item[1])}
+        self.secondary_equips = {k: v for k, v in
+                             sorted(self.secondary_equips.items(), reverse=True, key=lambda item: item[1])}
+        self.melee_equips = {k: v for k, v in
+                             sorted(self.melee_equips.items(), reverse=True, key=lambda item: item[1])}
         self.loadout_tracker = {k: v for k, v in
                              sorted(self.loadout_tracker.items(), reverse=True, key=lambda item: item[1])}
 
@@ -241,8 +283,54 @@ class Parser:
 class XMLOutputter:
     def __init__(self, parser):
         self.parser = parser
+        self.do_equips()
         self.do_weapon_stats()
         self.do_loadouts()
+
+    def do_equips(self):
+        book = xlwt.Workbook()
+        sh = book.add_sheet("Loadouts")
+
+        col1_name = 'Classes'
+        col2_name = 'Times chosen'
+        col3_name = 'Primaries'
+        col4_name = 'Times chosen'
+        col5_name = 'Secondaries'
+        col6_name = 'Times chosen'
+        col7_name = 'Melees'
+        col8_name = 'Times chosen'
+
+        sh.write(0, 0, col1_name)
+        sh.write(0, 1, col2_name)
+        sh.write(0, 3, col3_name)
+        sh.write(0, 4, col4_name)
+        sh.write(0, 6, col5_name)
+        sh.write(0, 7, col6_name)
+        sh.write(0, 9, col7_name)
+        sh.write(0, 10, col8_name)
+
+
+
+        
+        for i, tfclass in enumerate(self.parser.class_equips):
+            sh.write(i + 1, 0, tfclass)
+            sh.write(i + 1, 1, self.parser.class_equips[tfclass])
+
+        for i, tfclass in enumerate(self.parser.primary_equips):
+            sh.write(i + 1, 3, schema.items[int(tfclass)].name)
+            sh.write(i + 1, 4, self.parser.primary_equips[tfclass])
+            
+        for i, tfclass in enumerate(self.parser.secondary_equips):
+            sh.write(i + 1, 6, schema.items[int(tfclass)].name)
+            sh.write(i + 1, 7, self.parser.secondary_equips[tfclass])
+
+        for i, tfclass in enumerate(self.parser.melee_equips):
+            sh.write(i + 1, 9, schema.items[int(tfclass)].name)
+            sh.write(i + 1, 10, self.parser.melee_equips[tfclass])
+
+            
+        book.save("equips.xls")
+        print('Saved spreadsheet with equips as equips.xls')
 
     def do_loadouts(self):
         book = xlwt.Workbook()
